@@ -11,12 +11,23 @@ module.exports = class Mewe {
     this.token = token; 
   }
 
-  async post(text) {
+  async getProfile() {
+    var profile = await axios({
+      url: this.root + '/me/info',
+      headers: {
+        authorization: 'Sgrouples accessToken= ' + this.token
+      }
+    });
+    return profile.data;
+  }
+
+  async post(text,img_id) {
     var res = await axios({
       url: this.root + '/home/post',
       method: 'POST',
       data: {
         "text": text,
+	"imageIds": img_id?[img_id]:[],
         "existingFileIds": [],
         "mediaIds": [],
         "public": true,
